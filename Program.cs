@@ -354,8 +354,8 @@ class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"❌ Помилка при запиті до Geoapify: {ex.Message}");
-            return "❌ Помилка при отриманні місць. Спробуйте ще раз.";
+            Console.WriteLine("❌ Geoapify API error: " + ex.Message);
+            return "❌ Вибач, не вдалося знайти цікаві місця. Перевір назву міста або спробуй пізніше.";
         }
     }
     class Weather

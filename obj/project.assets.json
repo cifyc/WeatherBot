@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net10.0": {
+    "net8.0": {
       "Microsoft.Data.Sqlite/9.0.4": {
         "type": "package",
         "dependencies": {
@@ -76,10 +76,10 @@
           "lib/netstandard2.0/_._": {}
         },
         "build": {
-          "buildTransitive/net9.0/SQLitePCLRaw.lib.e_sqlite3.targets": {}
+          "buildTransitive/net8.0/SQLitePCLRaw.lib.e_sqlite3.targets": {}
         },
         "runtimeTargets": {
-          "runtimes/browser-wasm/nativeassets/net9.0/e_sqlite3.a": {
+          "runtimes/browser-wasm/nativeassets/net8.0/e_sqlite3.a": {
             "assetType": "native",
             "rid": "browser-wasm"
           },
@@ -177,20 +177,81 @@
           "lib/net6.0/SQLitePCLRaw.provider.e_sqlite3.dll": {}
         }
       },
-      "System.Net.Http.Json/9.0.4": {
+      "System.IO.Pipelines/9.0.4": {
         "type": "package",
         "compile": {
-          "lib/net9.0/System.Net.Http.Json.dll": {
+          "lib/net8.0/System.IO.Pipelines.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net9.0/System.Net.Http.Json.dll": {
+          "lib/net8.0/System.IO.Pipelines.dll": {
             "related": ".xml"
           }
         },
         "build": {
           "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "System.Net.Http.Json/9.0.4": {
+        "type": "package",
+        "dependencies": {
+          "System.Text.Json": "9.0.4"
+        },
+        "compile": {
+          "lib/net8.0/System.Net.Http.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Net.Http.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "System.Text.Encodings.Web/9.0.4": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Text.Encodings.Web.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll": {
+            "assetType": "runtime",
+            "rid": "browser"
+          }
+        }
+      },
+      "System.Text.Json/9.0.4": {
+        "type": "package",
+        "dependencies": {
+          "System.IO.Pipelines": "9.0.4",
+          "System.Text.Encodings.Web": "9.0.4"
+        },
+        "compile": {
+          "lib/net8.0/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Text.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/System.Text.Json.targets": {}
         }
       },
       "Telegram.Bot/18.0.0": {
@@ -367,6 +428,34 @@
         "sqlitepclraw.provider.e_sqlite3.nuspec"
       ]
     },
+    "System.IO.Pipelines/9.0.4": {
+      "sha512": "luF2Xba+lTe2GOoNQdZLe8q7K6s7nSpWZl9jIwWNMszN4/Yv0lmxk9HISgMmwdyZ83i3UhAGXaSY9o6IJBUuuA==",
+      "type": "package",
+      "path": "system.io.pipelines/9.0.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.IO.Pipelines.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.IO.Pipelines.targets",
+        "lib/net462/System.IO.Pipelines.dll",
+        "lib/net462/System.IO.Pipelines.xml",
+        "lib/net8.0/System.IO.Pipelines.dll",
+        "lib/net8.0/System.IO.Pipelines.xml",
+        "lib/net9.0/System.IO.Pipelines.dll",
+        "lib/net9.0/System.IO.Pipelines.xml",
+        "lib/netstandard2.0/System.IO.Pipelines.dll",
+        "lib/netstandard2.0/System.IO.Pipelines.xml",
+        "system.io.pipelines.9.0.4.nupkg.sha512",
+        "system.io.pipelines.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "System.Net.Http.Json/9.0.4": {
       "sha512": "t34SoSx8l/O5kv7IwYXENjQOTpVKFkH3ydZejcZCsNsymthJrdCguvHFcbP3ayeBOXdm4Bq8bhmVGCgr0RXIQg==",
       "type": "package",
@@ -395,6 +484,109 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "System.Text.Encodings.Web/9.0.4": {
+      "sha512": "V+5cCPpk1S2ngekUs9nDrQLHGiWFZMg8BthADQr+Fwi59a8DdHFu26S2oi9Bfgv+d67bqmkPqctJXMEXiimXUg==",
+      "type": "package",
+      "path": "system.text.encodings.web/9.0.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Text.Encodings.Web.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Text.Encodings.Web.targets",
+        "lib/net462/System.Text.Encodings.Web.dll",
+        "lib/net462/System.Text.Encodings.Web.xml",
+        "lib/net8.0/System.Text.Encodings.Web.dll",
+        "lib/net8.0/System.Text.Encodings.Web.xml",
+        "lib/net9.0/System.Text.Encodings.Web.dll",
+        "lib/net9.0/System.Text.Encodings.Web.xml",
+        "lib/netstandard2.0/System.Text.Encodings.Web.dll",
+        "lib/netstandard2.0/System.Text.Encodings.Web.xml",
+        "runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll",
+        "runtimes/browser/lib/net8.0/System.Text.Encodings.Web.xml",
+        "runtimes/browser/lib/net9.0/System.Text.Encodings.Web.dll",
+        "runtimes/browser/lib/net9.0/System.Text.Encodings.Web.xml",
+        "system.text.encodings.web.9.0.4.nupkg.sha512",
+        "system.text.encodings.web.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Text.Json/9.0.4": {
+      "sha512": "pYtmpcO6R3Ef1XilZEHgXP2xBPVORbYEzRP7dl0IAAbN8Dm+kfwio8aCKle97rAWXOExr292MuxWYurIuwN62g==",
+      "type": "package",
+      "path": "system.text.json/9.0.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "analyzers/dotnet/roslyn3.11/cs/System.Text.Json.SourceGeneration.dll",
+        "analyzers/dotnet/roslyn3.11/cs/cs/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/de/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/es/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/fr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/it/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/ja/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/ko/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/pl/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/pt-BR/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/ru/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/tr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/zh-Hans/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn3.11/cs/zh-Hant/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/System.Text.Json.SourceGeneration.dll",
+        "analyzers/dotnet/roslyn4.0/cs/cs/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/de/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/es/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/fr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/it/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/ja/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/ko/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/pl/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/pt-BR/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/ru/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/tr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/zh-Hans/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.0/cs/zh-Hant/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/System.Text.Json.SourceGeneration.dll",
+        "analyzers/dotnet/roslyn4.4/cs/cs/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/de/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/es/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/fr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/it/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ja/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ko/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/pl/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/pt-BR/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/ru/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/tr/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/zh-Hans/System.Text.Json.SourceGeneration.resources.dll",
+        "analyzers/dotnet/roslyn4.4/cs/zh-Hant/System.Text.Json.SourceGeneration.resources.dll",
+        "buildTransitive/net461/System.Text.Json.targets",
+        "buildTransitive/net462/System.Text.Json.targets",
+        "buildTransitive/net8.0/System.Text.Json.targets",
+        "buildTransitive/netcoreapp2.0/System.Text.Json.targets",
+        "buildTransitive/netstandard2.0/System.Text.Json.targets",
+        "lib/net462/System.Text.Json.dll",
+        "lib/net462/System.Text.Json.xml",
+        "lib/net8.0/System.Text.Json.dll",
+        "lib/net8.0/System.Text.Json.xml",
+        "lib/net9.0/System.Text.Json.dll",
+        "lib/net9.0/System.Text.Json.xml",
+        "lib/netstandard2.0/System.Text.Json.dll",
+        "lib/netstandard2.0/System.Text.Json.xml",
+        "system.text.json.9.0.4.nupkg.sha512",
+        "system.text.json.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "Telegram.Bot/18.0.0": {
       "sha512": "BD0UchUXINymCGS+1O1tv2enCRyv+VbSJQAgfnueTZs3j7K4XXyJyW0CgyJleTrqB1oq1hS1ux6gBpi3Ajp+ZQ==",
       "type": "package",
@@ -415,7 +607,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net10.0": [
+    "net8.0": [
       "Microsoft.Data.Sqlite >= 9.0.4",
       "System.Net.Http.Json >= 9.0.4",
       "Telegram.Bot >= 18.0.0"
@@ -437,14 +629,14 @@
         "/Users/eivan/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "net10.0"
+        "net8.0"
       ],
       "sources": {
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net10.0": {
-          "targetAlias": "net10.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "projectReferences": {}
         }
       },
@@ -456,13 +648,13 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "all"
+        "auditMode": "direct"
       },
       "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
-      "net10.0": {
-        "targetAlias": "net10.0",
+      "net8.0": {
+        "targetAlias": "net8.0",
         "dependencies": {
           "Microsoft.Data.Sqlite": {
             "target": "Package",
@@ -488,6 +680,20 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.14, 8.0.14]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.osx-arm64",
+            "version": "[8.0.14, 8.0.14]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.14, 8.0.14]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
@@ -497,7 +703,7 @@
         "packagesToPrune": {
           "Microsoft.CSharp": "(, 4.7.0]",
           "Microsoft.NETCore.App": "(, 2.1.0]",
-          "Microsoft.VisualBasic": "(, 10.4.0]",
+          "Microsoft.VisualBasic": "(, 10.3.0]",
           "Microsoft.Win32.Primitives": "(, 4.3.0]",
           "Microsoft.Win32.Registry": "(, 5.0.0]",
           "runtime.any.System.Collections": "(, 4.3.0]",
@@ -652,23 +858,23 @@
           "runtime.win7.System.Private.Uri": "(, 4.3.1]",
           "runtime.win8-arm.runtime.native.System.IO.Compression": "(, 4.3.2]",
           "System.AppContext": "(, 4.3.0]",
-          "System.Buffers": "(, 5.0.0]",
+          "System.Buffers": "(, 4.5.1]",
           "System.Collections": "(, 4.3.0]",
           "System.Collections.Concurrent": "(, 4.3.0]",
-          "System.Collections.Immutable": "(, 10.0.0]",
+          "System.Collections.Immutable": "(, 8.0.0]",
           "System.Collections.NonGeneric": "(, 4.3.0]",
           "System.Collections.Specialized": "(, 4.3.0]",
           "System.ComponentModel": "(, 4.3.0]",
-          "System.ComponentModel.Annotations": "(, 4.3.0]",
+          "System.ComponentModel.Annotations": "(, 5.0.0]",
           "System.ComponentModel.EventBasedAsync": "(, 4.3.0]",
           "System.ComponentModel.Primitives": "(, 4.3.0]",
           "System.ComponentModel.TypeConverter": "(, 4.3.0]",
           "System.Console": "(, 4.3.1]",
           "System.Data.Common": "(, 4.3.0]",
-          "System.Data.DataSetExtensions": "(, 4.4.0]",
+          "System.Data.DataSetExtensions": "(, 4.5.0]",
           "System.Diagnostics.Contracts": "(, 4.3.0]",
           "System.Diagnostics.Debug": "(, 4.3.0]",
-          "System.Diagnostics.DiagnosticSource": "(, 10.0.0]",
+          "System.Diagnostics.DiagnosticSource": "(, 8.0.1]",
           "System.Diagnostics.FileVersionInfo": "(, 4.3.0]",
           "System.Diagnostics.Process": "(, 4.3.0]",
           "System.Diagnostics.StackTrace": "(, 4.3.0]",
@@ -678,8 +884,7 @@
           "System.Diagnostics.Tracing": "(, 4.3.0]",
           "System.Drawing.Primitives": "(, 4.3.0]",
           "System.Dynamic.Runtime": "(, 4.3.0]",
-          "System.Formats.Asn1": "(, 10.0.0]",
-          "System.Formats.Tar": "(, 10.0.0]",
+          "System.Formats.Asn1": "(, 8.0.1]",
           "System.Globalization": "(, 4.3.0]",
           "System.Globalization.Calendars": "(, 4.3.0]",
           "System.Globalization.Extensions": "(, 4.3.0]",
@@ -687,24 +892,22 @@
           "System.IO.Compression": "(, 4.3.0]",
           "System.IO.Compression.ZipFile": "(, 4.3.0]",
           "System.IO.FileSystem": "(, 4.3.0]",
-          "System.IO.FileSystem.AccessControl": "(, 4.4.0]",
+          "System.IO.FileSystem.AccessControl": "(, 5.0.0]",
           "System.IO.FileSystem.DriveInfo": "(, 4.3.1]",
           "System.IO.FileSystem.Primitives": "(, 4.3.0]",
           "System.IO.FileSystem.Watcher": "(, 4.3.0]",
           "System.IO.IsolatedStorage": "(, 4.3.0]",
           "System.IO.MemoryMappedFiles": "(, 4.3.0]",
-          "System.IO.Pipelines": "(, 10.0.0]",
           "System.IO.Pipes": "(, 4.3.0]",
-          "System.IO.Pipes.AccessControl": "(, 5.0.0]",
+          "System.IO.Pipes.AccessControl": "(, 4.6.0]",
           "System.IO.UnmanagedMemoryStream": "(, 4.3.0]",
           "System.Linq": "(, 4.3.0]",
-          "System.Linq.AsyncEnumerable": "(, 10.0.0]",
           "System.Linq.Expressions": "(, 4.3.0]",
           "System.Linq.Parallel": "(, 4.3.0]",
           "System.Linq.Queryable": "(, 4.3.0]",
-          "System.Memory": "(, 5.0.0]",
+          "System.Memory": "(, 4.5.5]",
           "System.Net.Http": "(, 4.3.4]",
-          "System.Net.Http.Json": "(, 10.0.0]",
+          "System.Net.Http.Json": "(, 8.0.1]",
           "System.Net.NameResolution": "(, 4.3.0]",
           "System.Net.NetworkInformation": "(, 4.3.0]",
           "System.Net.Ping": "(, 4.3.0]",
@@ -715,24 +918,24 @@
           "System.Net.WebHeaderCollection": "(, 4.3.0]",
           "System.Net.WebSockets": "(, 4.3.0]",
           "System.Net.WebSockets.Client": "(, 4.3.2]",
-          "System.Numerics.Vectors": "(, 5.0.0]",
+          "System.Numerics.Vectors": "(, 4.5.0]",
           "System.ObjectModel": "(, 4.3.0]",
           "System.Private.DataContractSerialization": "(, 4.3.0]",
-          "System.Private.Uri": "(, 4.3.2]",
+          "System.Private.Uri": "(, 4.3.0]",
           "System.Reflection": "(, 4.3.0]",
-          "System.Reflection.DispatchProxy": "(, 6.0.0]",
+          "System.Reflection.DispatchProxy": "(, 4.7.1]",
           "System.Reflection.Emit": "(, 4.7.0]",
           "System.Reflection.Emit.ILGeneration": "(, 4.7.0]",
           "System.Reflection.Emit.Lightweight": "(, 4.7.0]",
           "System.Reflection.Extensions": "(, 4.3.0]",
-          "System.Reflection.Metadata": "(, 10.0.0]",
+          "System.Reflection.Metadata": "(, 8.0.1]",
           "System.Reflection.Primitives": "(, 4.3.0]",
-          "System.Reflection.TypeExtensions": "(, 4.3.0]",
+          "System.Reflection.TypeExtensions": "(, 4.7.0]",
           "System.Resources.Reader": "(, 4.3.0]",
           "System.Resources.ResourceManager": "(, 4.3.0]",
           "System.Resources.Writer": "(, 4.3.0]",
           "System.Runtime": "(, 4.3.1]",
-          "System.Runtime.CompilerServices.Unsafe": "(, 7.0.0]",
+          "System.Runtime.CompilerServices.Unsafe": "(, 6.0.0]",
           "System.Runtime.CompilerServices.VisualC": "(, 4.3.0]",
           "System.Runtime.Extensions": "(, 4.3.1]",
           "System.Runtime.Handles": "(, 4.3.0]",
@@ -750,7 +953,7 @@
           "System.Security.AccessControl": "(, 6.0.1]",
           "System.Security.Claims": "(, 4.3.0]",
           "System.Security.Cryptography.Algorithms": "(, 4.3.1]",
-          "System.Security.Cryptography.Cng": "(, 5.0.0]",
+          "System.Security.Cryptography.Cng": "(, 4.6.0]",
           "System.Security.Cryptography.Csp": "(, 4.3.0]",
           "System.Security.Cryptography.Encoding": "(, 4.3.0]",
           "System.Security.Cryptography.OpenSsl": "(, 5.0.0]",
@@ -761,17 +964,17 @@
           "System.Security.Principal.Windows": "(, 5.0.0]",
           "System.Security.SecureString": "(, 4.3.0]",
           "System.Text.Encoding": "(, 4.3.0]",
-          "System.Text.Encoding.CodePages": "(, 10.0.0]",
+          "System.Text.Encoding.CodePages": "(, 8.0.0]",
           "System.Text.Encoding.Extensions": "(, 4.3.0]",
-          "System.Text.Encodings.Web": "(, 10.0.0]",
-          "System.Text.Json": "(, 10.0.0]",
+          "System.Text.Encodings.Web": "(, 8.0.0]",
+          "System.Text.Json": "(, 8.0.5]",
           "System.Text.RegularExpressions": "(, 4.3.1]",
           "System.Threading": "(, 4.3.0]",
-          "System.Threading.Channels": "(, 10.0.0]",
+          "System.Threading.Channels": "(, 8.0.0]",
           "System.Threading.Overlapped": "(, 4.3.0]",
           "System.Threading.Tasks": "(, 4.3.0]",
-          "System.Threading.Tasks.Dataflow": "(, 10.0.0]",
-          "System.Threading.Tasks.Extensions": "(, 5.0.0]",
+          "System.Threading.Tasks.Dataflow": "(, 8.0.1]",
+          "System.Threading.Tasks.Extensions": "(, 4.5.4]",
           "System.Threading.Tasks.Parallel": "(, 4.3.0]",
           "System.Threading.Thread": "(, 4.3.0]",
           "System.Threading.ThreadPool": "(, 4.3.0]",
@@ -782,27 +985,9 @@
           "System.Xml.XmlDocument": "(, 4.3.0]",
           "System.Xml.XmlSerializer": "(, 4.3.0]",
           "System.Xml.XPath": "(, 4.3.0]",
-          "System.Xml.XPath.XDocument": "(, 5.0.0]"
+          "System.Xml.XPath.XDocument": "(, 4.3.0]"
         }
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1510",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "PackageReference System.Net.Http.Json will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary."
-    },
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Newtonsoft.Json' 12.0.2 has a known high severity vulnerability, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
-      "libraryId": "Newtonsoft.Json",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    }
-  ]
+  }
 }
