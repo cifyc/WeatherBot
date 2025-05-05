@@ -61,11 +61,25 @@ class Program
         {
             var keyboard = new Telegram.Bot.Types.ReplyMarkups.ReplyKeyboardMarkup(new[]
             {
-                new[] { new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/weather"), new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/setcity") },
-                new[] { new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/subscribe"), new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/history") },
-                new[] { new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/favorites"), new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/addfavorite") },
-                new[] { new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/removefavorite") },
-                new[] { new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/support") }
+                new[] {
+                    new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/weather"),
+                    new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/setcity")
+                },
+                new[] {
+                    new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/subscribe"),
+                    new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/unsubscribe")
+                },
+                new[] {
+                    new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/favorites"),
+                    new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/addfavorite")
+                },
+                new[] {
+                    new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/removefavorite"),
+                    new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/history")
+                },
+                new[] {
+                    new Telegram.Bot.Types.ReplyMarkups.KeyboardButton("/support")
+                }
             })
             {
                 ResizeKeyboard = true
