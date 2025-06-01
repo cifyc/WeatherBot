@@ -14,12 +14,13 @@ class Program
     static readonly Dictionary<long, (DateTime time, string forecast)> weatherCache = new();
     static readonly string weatherKey = "095972f1d5dc35a4e48fd5f1ef8f28e0";
     static readonly string geoKey = "d57a5ce0214e487f9f4707f1af453e9e";
-    static readonly string botToken = "7825176743:AAH2FGhVW0p6NP0XCO_vTA4c3aT-YbdV0R8";
+    static readonly string botToken = "7825176743:AAF99wdCkD9h_dDbLZMrJ9LnZEjNZyvciyE";
     static readonly TelegramBotClient bot = new TelegramBotClient(botToken);
     static readonly HttpClient http = new HttpClient();
     static async Task Main()
     {
         InitDb();
+        new Timer(async _ => await SendDailyForecasts(), null, TimeSpan.Zero, TimeSpan.FromHours(24));
         await bot.SetMyCommandsAsync(new[]
         {
             new Telegram.Bot.Types.BotCommand { Command = "start", Description = "Запуск бота" },
@@ -99,8 +100,15 @@ class Program
                 await bot.SendTextMessageAsync(id, "❗ Назва міста занадто коротка. Спробуйте ще раз.");
                 return;
             }
-            Exec($"REPLACE INTO Users VALUES ({id}, '{city}')");
-            await bot.SendTextMessageAsync(id, $"🏙️ Місто встановлено: {city}");
+            if (Exists($"SELECT 1 FROM Users WHERE id={id}"))
+                Exec($"UPDATE Users SET default_city = '{city.Replace("'", "''")}' WHERE id = {id}");
+            else
+                Exec($"INSERT INTO Users (id, default_city) VALUES ({id}, '{city.Replace("'", "''")}')");
+            string resultCity = GetVal($"SELECT default_city FROM Users WHERE id={id}") ?? "(не встановлено)";
+            if (resultCity.ToLower() == city.ToLower())
+                await bot.SendTextMessageAsync(id, $"✅ Місто успішно встановлено: {resultCity}");
+            else
+                await bot.SendTextMessageAsync(id, $"⚠️ Сталася помилка. Місто не було встановлено.");
         }
         else if (text.StartsWith("/subscribe"))
         {
@@ -190,8 +198,6 @@ class Program
                 await bot.SendTextMessageAsync(id, "❗ Введіть назву місця. Приклад: /addfavorite Central Park");
                 return;
             }
-
-            // Перевірка чи місце вже існує
             bool exists = Exists($"SELECT 1 FROM Favorites WHERE user_id={id} AND place_name='{place.Replace("'", "''")}'");
 
             if (exists)
@@ -220,7 +226,6 @@ class Program
                 await bot.SendTextMessageAsync(id, "📭 У вас поки що немає улюблених місць.");
                 return;
             }
-
             string place = text.Replace("/removefavorite", "").Trim();
             if (string.IsNullOrWhiteSpace(place))
             {
@@ -228,7 +233,6 @@ class Program
                     string.Join("\n", favList) + "\n\nПриклад: /removefavorite Central Park");
                 return;
             }
-
             bool exists = Exists($"SELECT 1 FROM Favorites WHERE user_id={id} AND place_name='{place.Replace("'", "''")}'");
             if (!exists)
             {
@@ -248,7 +252,6 @@ class Program
                 await bot.SendTextMessageAsync(id, "❗ Введіть повідомлення для техпідтримки.\nПриклад: /support У мене не працює команда /weather");
                 return;
             }
-
             Exec($"INSERT INTO Support VALUES ({id}, '{msg.Replace("'", "''")}', datetime('now'))");
             await bot.SendTextMessageAsync(id, "📨 Звернення надіслано. Дякуємо!");
         }
@@ -395,53 +398,41 @@ class Program
     {
         public string name { get; set; }
     }
+    static async Task SendDailyForecasts()
+    {
+        var userIds = GetList("SELECT user_id FROM Subscriptions");
+        foreach (var uid in userIds)
+        {
+            if (!long.TryParse(uid, out long id)) continue;
+
+            string city = GetVal($"SELECT default_city FROM Users WHERE id={id}") ?? "";
+            if (string.IsNullOrWhiteSpace(city)) continue;
+
+            string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={weatherKey}&units=metric&lang=ua";
+            var response = await http.GetAsync(url);
+            if (!response.IsSuccessStatusCode) continue;
+
+            var res = await response.Content.ReadFromJsonAsync<Weather>();
+            string desc = res.weather?[0].description ?? "н/д";
+            float temp = res.main?.temp ?? 0;
+
+            string msg = $"📬 Щоденна порада для {city}:\n🌤️ {desc}, {temp}°C";
+
+            try
+            {
+                await bot.SendTextMessageAsync(id, msg);
+            }
+            catch (Telegram.Bot.Exceptions.ApiRequestException ex)
+            {
+                if (ex.Message.Contains("bot was blocked by the user"))
+                {
+                    Console.WriteLine($"❌ Користувач {id} заблокував бота. Пропускаємо.");
+                }
+                else
+                {
+                    Console.WriteLine($"❌ Помилка надсилання до {id}: {ex.Message}");
+                }
+            }
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
