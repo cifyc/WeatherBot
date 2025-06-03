@@ -11,15 +11,19 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 class Program
 {
+    //Конфігураційні змінні та клієнти Telegram API, HTTP, кеш погоди
     static readonly Dictionary<long, (DateTime time, string forecast)> weatherCache = new();
     static readonly string weatherKey = "095972f1d5dc35a4e48fd5f1ef8f28e0";
     static readonly string geoKey = "d57a5ce0214e487f9f4707f1af453e9e";
     static readonly string botToken = "7825176743:AAF99wdCkD9h_dDbLZMrJ9LnZEjNZyvciyE";
     static readonly TelegramBotClient bot = new TelegramBotClient(botToken);
     static readonly HttpClient http = new HttpClient();
+
+    // Основна точка входу: ініціалізація бази, запуск таймера, реєстрація команд Telegram і запуск бота
     static async Task Main()
     {
         InitDb();
+        // Запуск щоденного таймера для розсилки прогнозів
         new Timer(async _ => await SendDailyForecasts(), null, TimeSpan.Zero, TimeSpan.FromHours(24));
         await bot.SetMyCommandsAsync(new[]
         {
@@ -38,6 +42,8 @@ class Program
         Console.WriteLine("🤖 Бот працює. Натисни Enter для виходу...");
         Console.ReadLine();
     }
+
+    // Основний обробник оновлень Telegram вхідні повідомлення, команди
     static async Task UpdateHandler(ITelegramBotClient client, Telegram.Bot.Types.Update update, CancellationToken token)
     {
         if (update.Message == null || update.Message.Text == null) return;
@@ -58,6 +64,7 @@ class Program
                 "✨ Просто введи команду й користуйся зручністю!";
         string cityNotSetMsg = "⚠️ Встановіть спочатку місто за допомогою /setcity\n\nНаприклад: /setcity Kyiv";
         string cityNotFoundMsgTemplate = "❗ Не вдалося знайти погоду для міста '{0}'. Переконайтесь, що місто введено правильно.\n\nПриклад: /setcity Lviv або /setcity Kyiv";
+        // Обробка стартової команди /start: вивід клавіатури і привітання
         if (text.StartsWith("/start"))
         {
             var keyboard = new Telegram.Bot.Types.ReplyMarkups.ReplyKeyboardMarkup(new[]
@@ -87,6 +94,7 @@ class Program
             };
             await bot.SendTextMessageAsync(id, startMsg, Telegram.Bot.Types.Enums.ParseMode.Html, replyMarkup: keyboard);
         }
+        // Команда /setcity: збереження або оновлення міста користувача
         else if (text.StartsWith("/setcity"))
         {
             string city = text.Replace("/setcity", "").Trim();
@@ -110,6 +118,7 @@ class Program
             else
                 await bot.SendTextMessageAsync(id, $"⚠️ Сталася помилка. Місто не було встановлено.");
         }
+        // Команда /subscribe: підписка на щоденні поради
         else if (text.StartsWith("/subscribe"))
         {
             if (Exists($"SELECT 1 FROM Subscriptions WHERE user_id={id}"))
@@ -120,6 +129,7 @@ class Program
                 await bot.SendTextMessageAsync(id, "✅ Підписка активна! Щодня надсилатимемо прогноз ☀️");
             }
         }
+        // Команда /unsubscribe: відписка від щоденних порад
         else if (text.StartsWith("/unsubscribe"))
         {
             if (!Exists($"SELECT 1 FROM Subscriptions WHERE user_id={id}"))
@@ -130,6 +140,7 @@ class Program
                 await bot.SendTextMessageAsync(id, "❎ Ви відписалися від щоденних порад.");
             }
         }
+        // Команда /weather: отримання прогнозу погоди + поради по одягу + цікаві місця
         else if (text.StartsWith("/weather"))
         {
             if (weatherCache.TryGetValue(id, out var cached) && (DateTime.Now - cached.time).TotalMinutes < 5)
@@ -185,11 +196,13 @@ class Program
             weatherCache[id] = (DateTime.Now, msg);
             await bot.SendTextMessageAsync(id, msg);
         }
+        // Команда /history: показати останні запити користувача
         else if (text.StartsWith("/history"))
         {
             var list = GetList($"SELECT message FROM History WHERE user_id={id} ORDER BY datetime DESC LIMIT 5");
             await bot.SendTextMessageAsync(id, "📜 Історія:\n" + string.Join("\n", list));
         }
+        // Команда /addfavorite: додати місце до улюблених
         else if (text.StartsWith("/addfavorite"))
         {
             string place = text.Replace("/addfavorite", "").Trim();
@@ -210,6 +223,7 @@ class Program
                 await bot.SendTextMessageAsync(id, "✅ Місце успішно додано в улюблені!");
             }
         }
+        // Команда /favorites: показати список улюблених місць
         else if (text.StartsWith("/favorites"))
         {
             var favList = GetList($"SELECT place_name FROM Favorites WHERE user_id={id} ORDER BY datetime DESC LIMIT 10");
@@ -218,6 +232,7 @@ class Program
             else
                 await bot.SendTextMessageAsync(id, "⭐ Ваші улюблені місця:\n" + string.Join("\n", favList));
         }
+        // Команда /removefavorite: видалити місце з улюблених
         else if (text.StartsWith("/removefavorite"))
         {
             var favList = GetList($"SELECT place_name FROM Favorites WHERE user_id={id} ORDER BY datetime DESC LIMIT 10");
@@ -244,6 +259,7 @@ class Program
                 await bot.SendTextMessageAsync(id, "🗑️ Місце видалено з улюблених!");
             }
         }
+        // Команда /support: надіслати повідомлення до техпідтримки
         else if (text.StartsWith("/support"))
         {
             string msg = text.Replace("/support", "").Trim();
@@ -255,6 +271,7 @@ class Program
             Exec($"INSERT INTO Support VALUES ({id}, '{msg.Replace("'", "''")}', datetime('now'))");
             await bot.SendTextMessageAsync(id, "📨 Звернення надіслано. Дякуємо!");
         }
+        // Команда /adminsupport: адміністратор переглядає звернення до підтримки
         else if (text.StartsWith("/adminsupport"))
         {
             long adminId = 1390937778;
@@ -274,11 +291,13 @@ class Program
             }
         }
     }
+    // Обробка помилок Telegram бота 
     static Task ErrorHandler(ITelegramBotClient client, Exception ex, CancellationToken token)
     {
         Console.WriteLine("❌ " + ex.Message);
         return Task.CompletedTask;
     }
+    // Ініціалізація таблиць бази даних SQLite 
     static void InitDb()
     {
         Exec("CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY, default_city TEXT);");
@@ -365,7 +384,7 @@ class Program
     {
         public List<WeatherDescription>? weather { get; set; }
         public MainWeather? main { get; set; }
-    }
+    } 
     class WeatherDescription
     {
         public string? description { get; set; }
@@ -398,6 +417,8 @@ class Program
     {
         public string name { get; set; }
     }
+
+    //Щоденна розсилка підписаним користувачам прогнозу погоди
     static async Task SendDailyForecasts()
     {
         var userIds = GetList("SELECT user_id FROM Subscriptions");
