@@ -108,12 +108,21 @@ class Program
                 await bot.SendTextMessageAsync(id, "❗ Назва міста занадто коротка. Спробуйте ще раз.");
                 return;
             }
+
             if (Exists($"SELECT 1 FROM Users WHERE id={id}"))
+            {
                 Exec($"UPDATE Users SET default_city = '{city.Replace("'", "''")}' WHERE id = {id}");
+            }
             else
+            {
                 Exec($"INSERT INTO Users (id, default_city) VALUES ({id}, '{city.Replace("'", "''")}')");
+            }
+
+            weatherCache.Remove(id); // Очистити кеш для поточного користувача
+
             string resultCity = GetVal($"SELECT default_city FROM Users WHERE id={id}") ?? "(не встановлено)";
-            if (resultCity.ToLower() == city.ToLower())
+
+            if (string.Equals(resultCity, city, StringComparison.OrdinalIgnoreCase))
                 await bot.SendTextMessageAsync(id, $"✅ Місто успішно встановлено: {resultCity}");
             else
                 await bot.SendTextMessageAsync(id, $"⚠️ Сталася помилка. Місто не було встановлено.");
@@ -443,16 +452,9 @@ class Program
             {
                 await bot.SendTextMessageAsync(id, msg);
             }
-            catch (Telegram.Bot.Exceptions.ApiRequestException ex)
+            catch
             {
-                if (ex.Message.Contains("bot was blocked by the user"))
-                {
-                    Console.WriteLine($"❌ Користувач {id} заблокував бота. Пропускаємо.");
-                }
-                else
-                {
-                    Console.WriteLine($"❌ Помилка надсилання до {id}: {ex.Message}");
-                }
+                // intentionally ignored (наприклад, користувач заблокував бота)
             }
         }
     }
